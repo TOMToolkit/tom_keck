@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "tom-keck"
+version = "0.1.0"
+description = "TOMToolkit Facility module for W. M. Keck Observatory."
+authors = ["Lindy Lindstrom <llindstrom@lco.global>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = ">=3.9.0,<3.13"
+tomtoolkit = "^2.21.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
