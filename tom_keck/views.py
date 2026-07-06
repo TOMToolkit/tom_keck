@@ -1,7 +1,6 @@
 from django.views.generic.edit import UpdateView
 from django.urls import reverse_lazy
 
-from tom_keck.forms import KeckProfileForm
 from tom_keck.models import KeckProfile
 
 
@@ -18,17 +17,8 @@ class ProfileUpdateView(UpdateView):
     ``tom_base/tom_common/templatetags/user_extras.py::show_app_profiles``).
     """
     model = KeckProfile
-    template_name = 'tom_keck/kec_update_user_profile.html'
-
-    # we need a custom form class to handle the encrypted field
-    form_class = KeckProfileForm
-
-    def get_form_kwargs(self):
-        """Extend the UpdateView.get_form_kwargs to pass the logged-in User to the form
-        """
-        kwargs = super().get_form_kwargs()
-        kwargs['user'] = self.request.user
-        return kwargs
+    template_name = 'tom_keck/update_profile.html'
+    fields = ['keck_username', 'keck_password']  # required by ModelFormMixin, a base class of this ProfileUpdateView
 
     def get_success_url(self):
         return reverse_lazy('user-profile')  # back to the TOMToolkit user-profile
