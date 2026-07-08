@@ -5,11 +5,8 @@ from django.urls import path, include
 class TomKeckConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
     name = 'tom_keck'  # python path to the application, like 'django.contrib.admin'
-    label = 'keck'  # Short name for the application, e.g. 'admin' WARNING: used in database tables and migrations
 
     # The following methods are TOMToolkit integration points
-
-    # we don't have any nav_items or target_detail_buttons for this app
 
     def include_url_paths(self):
         """
