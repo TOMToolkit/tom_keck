@@ -20,4 +20,3 @@ class KeckProfile(models.Model):
         max_length=255, null=True, blank=True, verbose_name="Keck Username"
     )
     keck_password = EncryptedModelField(null=True, blank=True)
-
