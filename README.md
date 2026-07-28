@@ -14,24 +14,18 @@ Install the module into your TOM environment:
 pip install tom-keck
 ```
 
-1. In your project `settings.py`, add `tom_keck` to your `INSTALLED_APPS` setting:
+Then, in your project `settings.py`, add `tom_keck` to your `INSTALLED_APPS` setting:
 
-    ```python
-    INSTALLED_APPS = [
-        ...
-        'tom_keck',
-    ]
-    ```
+```python
+INSTALLED_APPS = [
+    ...
+    'tom_keck',
+]
+```
 
-2. Add `tom_keck.keck.KeckFacility` to the `TOM_FACILITY_CLASSES` in your TOM's
-`settings.py`:
-   ```python
-    TOM_FACILITY_CLASSES = [
-        'tom_observations.facilities.lco.LCOFacility',
-        ...
-        'tom_keck.keck.KeckFacility',
-    ]
-   ```   
+That's it. `tom_keck` implements the `observation_facilities()` AppConfig integration point,
+so the Keck facility is discovered automatically — it does not need to be added to
+`TOM_FACILITY_CLASSES` in your `settings.py`.
 
 ## Configuration
 
