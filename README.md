@@ -1,27 +1,47 @@
-To spin up a Keck TOM, first install TOMtoolkit following the instructions on:
+# tom_keck
+WM Keck Observatory facility module for TOM Toolkit.
 
-https://tom-toolkit.readthedocs.io/en/stable/introduction/getting_started.html
+🚧 pre-release work-in-progress 🚧
 
-After that, copy the keckfacility.py to mytom/mytom/ and put it along with the settings.py. Then modify the settings.py to incorporate Keck into observation facility:
+# Prerequisites
+TODO: _List prerequisites here (like credentials, ToO observing program, etc) and links to fulfill them_.
 
-TOM_FACILITY_CLASSES = [
-    'tom_observations.facilities.lco.LCOFacility',
-    'tom_observations.facilities.gemini.GEMFacility',
-    'tom_observations.facilities.soar.SOARFacility',
-    'tom_swift.swift.SwiftFacility',
-    'mytom.keckfacility.KeckFacility',
+# Installation
+
+Install the module into your TOM environment:
+
+```shell
+pip install tom-keck
+```
+
+Then, in your project `settings.py`, add `tom_keck` to your `INSTALLED_APPS` setting:
+
+```python
+INSTALLED_APPS = [
+    ...
+    'tom_keck',
 ]
+```
 
-as well as adding Keck observer's log in credentials in:
+That's it. `tom_keck` implements the `observation_facilities()` AppConfig integration point,
+so the Keck facility is discovered automatically — it does not need to be added to
+`TOM_FACILITY_CLASSES` in your `settings.py`.
 
-FACILITIES = {
-    'LCO': {
-        'portal_url': 'https://observe.lco.global',
-        'api_key': '',
-    },
-    'Keck':{
-        'Keck_USERNAME': 'username@keck.hawaii.edu',
-        'Keck_PASSWORD': 'keckpassword',
-    },
-}
+## Configuration (planned — not yet implemented)
 
+The credential scheme below is the design target for this module; the current pre-release
+code does not yet read `FACILITIES['KECK']` from `settings.py`.
+
+For TOM-wide credentials, include the following settings inside the `FACILITIES` dictionary inside `settings.py`:
+
+```python
+    FACILITIES = {
+        ...
+        'KECK': {
+            'KECK_USERNAME': os.getenv('KECK_USERNAME', 'set me'),
+            'KECK_PASSWORD': os.getenv('KECK_PASSWORD', 'set me'),
+        },
+    }
+```
+
+**User-specific** credentials can be added by individual users via their User Profile page. When both user-specific credentials and TOM-wide credentials are present, user-specific credentials will take precedence.
