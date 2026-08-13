@@ -5,6 +5,8 @@ from django import forms
 
 from tom_observations.facility import BaseRoboticObservationFacility, BaseRoboticObservationForm
 
+from tom_keck.apps import TomKeckConfig
+
 
 class KeckFacilityForm(BaseRoboticObservationForm):
     exposure_time = forms.IntegerField()
@@ -19,6 +21,9 @@ class KeckFacilityForm(BaseRoboticObservationForm):
 
 class KeckFacility(BaseRoboticObservationFacility):
     name = 'Keck'
+    # Detail page linked from the navbar "Facilities" menu. The AppConfig's name is the
+    # single source of truth for the namespace; guarded by test_detail_url_name_resolves.
+    detail_url_name = f'{TomKeckConfig.name}:facility-detail'  # 'tom_keck:facility-detail'
     observation_types: list[tuple[str, str]] = [
         ('OBSERVATION', 'Custom Observation')
     ]

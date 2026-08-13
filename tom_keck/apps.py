@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from django.apps import AppConfig
 from django.urls import path, include
 
@@ -5,43 +7,35 @@ from django.urls import path, include
 class TomKeckConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
     name = 'tom_keck'  # python path to the application, like 'django.contrib.admin'
-    url_prefix = 'keck'  # URL path prefix for this app's pages: HOST:PORT/keck/... (see include_url_paths())
+    # route_prefix is a TOMToolkit convention, not a Django AppConfig attribute:
+    # it is read only by include_url_paths() below.
+    route_prefix = 'keck'  # prefixes every route in urls.py: pages live at HOST:PORT/keck/...
 
     # The following methods are TOMToolkit integration points
 
-    def include_url_paths(self):
+    def include_url_paths(self) -> list:
         """
         Integration point for adding URL patterns to the Tom Common URL configuration.
         This method should return a list of URL patterns to be included in the main URL configuration.
 
-        Note: url_prefix only affects the path; the URL namespace remains self.label ('tom_keck'),
-        so reverses like 'tom_keck:facility-index' are unaffected.
+        Note: route_prefix only affects the URL path. The namespace in reverses like
+        'tom_keck:facility-detail' comes from app_name in urls.py (derived from self.name).
         """
         urlpatterns = [
-            path(f'{self.url_prefix}/', include(f'{self.name}.urls', namespace=f'{self.label}'))
+            path(f'{self.route_prefix}/', include(f'{self.name}.urls'))
         ]
         return urlpatterns
 
-    def observation_facilities(self):
+    def observation_facilities(self) -> list[dict[str, str]]:
         """
         Integration point for including this app's observation facilities in the TOM.
-        Facility classes listed will be among those returned by
+
+        Returns ``{'class': <dot separated path to a Facility class>}`` dicts, consumed by
         ``tom_observations.facility.get_service_classes()``.
-
-        This method should return a list of dictionaries, each with:
-         - a `class` key giving the dot separated path to a Facility class.
-         - an optional `url` key giving the namespaced URL name of the facility's landing page.
-
-        If the optional `url` key is given, the Facility will appear in the navbar
-        "Facilities" menu). Omit `url` for a facility with no landing page.
         """
-        facilities = [
-            {'class': f'{self.name}.keck.KeckFacility',
-             'url': f'{self.label}:facility-index'},
-        ]
-        return facilities
+        return [{'class': f'{self.name}.keck.KeckFacility'}]
 
-    def profile_details(self):
+    def profile_details(self) -> list[dict[str, str]]:
         """
         Integration point for adding items to the user profile page.
 

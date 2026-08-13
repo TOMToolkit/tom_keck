@@ -6,7 +6,7 @@
 import os
 import django
 from django.conf import settings
-from tom_common.default_settings import TOMTOOKIT_INSTALLED_APPS, TOMTOOKIT_MIDDLEWARE
+from tom_common.default_settings import TOMTOOLKIT_INSTALLED_APPS, TOMTOOLKIT_MIDDLEWARE
 
 APP_NAME = 'tom_keck'  # the stand-alone app we are testing
 
@@ -16,6 +16,8 @@ BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), APP_NAME))
 def boot_django():
     settings.configure(
         BASE_DIR=BASE_DIR,
+        # SECURITY WARNING: keep the secret key used in production secret! This is an example key for testing only.
+        SECRET_KEY='v5j-rg7sc+leg-m+vf947vi34+fs1%+$m%*l%sb7^fnwb$-29y',
         DEBUG=True,
         DATABASES={
             'default': {
@@ -24,7 +26,9 @@ def boot_django():
             }
         },
         TOM_NAME='Test TOM',
-        INSTALLED_APPS=TOMTOOKIT_INSTALLED_APPS+[APP_NAME],
+
+        ROOT_URLCONF='tom_common.urls',  # pull in installed app's include_url_paths() (needed to reverse() URLs)
+        INSTALLED_APPS=TOMTOOLKIT_INSTALLED_APPS+[APP_NAME],
         SITE_ID=1,
         EXTRA_FIELDS={},
         TIME_ZONE='UTC',
@@ -34,7 +38,7 @@ def boot_django():
             'observation_change_state': 'tom_common.hooks.observation_change_state',
             'data_product_post_upload': 'tom_dataproducts.hooks.data_product_post_upload'
         },
-        MIDDLEWARE=TOMTOOKIT_MIDDLEWARE,
+        MIDDLEWARE=TOMTOOLKIT_MIDDLEWARE,
         TEMPLATES=[
             {
                 'BACKEND': 'django.template.backends.django.DjangoTemplates',

@@ -4,7 +4,7 @@ WM Keck Observatory facility module for TOM Toolkit.
 🚧 pre-release work-in-progress 🚧
 
 # Prerequisites
-TODO: _List prerequistes here (like credentials, ToO observing program, etc) and links to fulfull them_.
+TODO: _List prerequisites here (like credentials, ToO observing program, etc) and links to fulfill them_.
 
 # Installation
 
@@ -27,7 +27,10 @@ That's it. `tom_keck` implements the `observation_facilities()` AppConfig integr
 so the Keck facility is discovered automatically — it does not need to be added to
 `TOM_FACILITY_CLASSES` in your `settings.py`.
 
-## Configuration
+## Configuration (planned — not yet implemented)
+
+The credential scheme below is the design target for this module; the current pre-release
+code does not yet read `FACILITIES['KECK']` from `settings.py`.
 
 For TOM-wide credentials, include the following settings inside the `FACILITIES` dictionary inside `settings.py`:
 
@@ -41,4 +44,4 @@ For TOM-wide credentials, include the following settings inside the `FACILITIES`
     }
 ```
 
-**User-specific** credentials can be added by individual users via their User Profile page. When both user-specific credentials and TOM-wide credentials are present, user-specific credential take precedence.
+**User-specific** credentials can be added by individual users via their User Profile page. When both user-specific credentials and TOM-wide credentials are present, user-specific credentials will take precedence.
